@@ -79,6 +79,7 @@ am4core.ready(function () {
     YAxisP.max = 500; // change
     // YAxisP.numberFormatter.numberFormat = "#,##";
     YAxisP.renderer.opposite = true;
+    YAxisP.renderer.stroke = am4core.color("#046889");
 
 
 
@@ -87,24 +88,25 @@ am4core.ready(function () {
     temp.dataFields.valueY = "t";
     temp.dataFields.valueX = "d";
     temp.name = "Temprérature";
-    temp.stroke = am4core.color("#DB6300"); // red
+    temp.stroke = am4core.color("#DB6300"); // orange
     temp.strokeWidth = 5; // 3px
+    temp.tooltipText = "{name}: [bold]{valueY}[/]";
+
+
 
     var pluvio = chart.series.push(new am4charts.LineSeries());
     pluvio.dataFields.valueY = "p";
     pluvio.dataFields.valueX = "d";
     pluvio.name = "Pluviométrie";
-    pluvio.tooltipText = "{p}: [bold]{p}[/]";
     pluvio.yAxis = YAxisP;
-    pluvio.stroke = am4core.color("#046889"); // red
+    pluvio.stroke = am4core.color("#046889"); // bleu
     pluvio.strokeWidth = 5; // 3px
+    pluvio.tooltipText = "{name}: [bold]{valueY}[/]";
 
+
+    
     chart.cursor = new am4charts.XYCursor();
-    chart.cursor.fullWidthLineX = true;
-    chart.cursor.xAxis = XAxis;
-    chart.cursor.lineX.strokeOpacity = 0;
-    chart.cursor.lineX.fill = am4core.color("#000");
-    chart.cursor.lineX.fillOpacity = 0.1;
+
 
 
 

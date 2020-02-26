@@ -18,7 +18,6 @@
     <script src="./lib/amcharts4/charts.js"></script>
     <script src="./lib/amcharts4/maps.js"></script>
     <script src="./lib/amcharts4/geodata/franceHigh.js"></script>
-    <script src="./lib/jQuery/jquery.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
     
     
