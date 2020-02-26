@@ -21,8 +21,8 @@
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
     
     
-    <!-- <script src="./js.js"></script> -->
-    <script src="./1_evolution_France.js"></script>
+    <script src="./js.js"></script>
+    <!-- <script src="./1_evolution_France.js"></script> -->
 
 
     
