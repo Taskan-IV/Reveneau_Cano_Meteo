@@ -6,8 +6,12 @@
     <title>Test amCharts</title>
   </head>
   <body>
-    <!-- <div id="chartdiv" style="width: 900px; height: 800px;"></div> -->
+    <div id="chartdiv" style="width: 900px; height: 800px;"></div>
+    <div id="1"></div>
+    <div id="2"></div>
+
     <div id="1_evol" style="width: 900px; height: 800px;"></div>
+
   </body>
   <footer>
     <script src="./lib/amcharts4/core.js"></script>
