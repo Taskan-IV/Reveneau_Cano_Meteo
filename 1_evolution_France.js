@@ -1,5 +1,5 @@
 
-function getText(url){
+function getText(url) {
 
 
 
@@ -45,29 +45,88 @@ am4core.ready(function () {
     am4core.useTheme(am4themes_animated);
     // Themes end
 
-
-
-
     // Create chart instance
     var chart = am4core.create("1_evol", am4charts.XYChart);
 
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
     // on définit la source de données
-    chart.dataSource.url = "./data/meteo.json";
-    chart.dataSource.parser = new am4core.JSONParser();
+    chart.dataSource.url = "./Data/meteo.json";
+
+    // https://www.amcharts.com/docs/v4/concepts/data/loading-external-data/#Manipulating_loaded_data
+    chart.dataSource.events.on("parseended", function (ev) {
+        // parsed data is assigned to data source's `data` property
+        var data = ev.target.data;
+        for (var i = 0; i < data.length; i++) {
+            data[i].t /= 100;
+        }
+    });
+
+
+    // Axes
+    var XAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    XAxis.dataFields.category = "d";
+    XAxis.title.text = "jour";
+    XAxis.renderer.fullWidthTooltip = true;
+
+    var YAxisT = chart.yAxes.push(new am4charts.ValueAxis());
+    YAxisT.title.text = "Température (°C)";
+    YAxisT.min = 0;
+    YAxisT.max = 50; // change
+    // YAxisT.numberFormatter.numberFormat = "#,##";
+
+    var YAxisP = chart.yAxes.push(new am4charts.ValueAxis());
+    YAxisP.title.text = "Pluviométrie (mm)";
+    YAxisP.min = 0;
+    YAxisP.max = 500; // change
+    // YAxisP.numberFormatter.numberFormat = "#,##";
+    YAxisP.renderer.opposite = true;
+
+
+
+    // lignes
+    var temp = chart.series.push(new am4charts.LineSeries());
+    temp.dataFields.valueY = "t";
+    temp.dataFields.valueX = "d";
+    temp.name = "Temprérature";
+    temp.stroke = am4core.color("#DB6300"); // red
+    temp.strokeWidth = 5; // 3px
+
+    var pluvio = chart.series.push(new am4charts.LineSeries());
+    pluvio.dataFields.valueY = "p";
+    pluvio.dataFields.valueX = "d";
+    pluvio.name = "Pluviométrie";
+    pluvio.tooltipText = "{p}: [bold]{p}[/]";
+    pluvio.yAxis = YAxisP;
+    pluvio.stroke = am4core.color("#046889"); // red
+    pluvio.strokeWidth = 5; // 3px
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.fullWidthLineX = true;
+    chart.cursor.xAxis = XAxis;
+    chart.cursor.lineX.strokeOpacity = 0;
+    chart.cursor.lineX.fill = am4core.color("#000");
+    chart.cursor.lineX.fillOpacity = 0.1;
+
+
+
+
+
+    // Create axes
+    // var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    // var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+
+
+    // chart.dataSource.parser = new am4core.JSONParser();
 
     // var json = getText('http://127.0.0.1/B3/DataViz/TP3/Reveneau_Cano_Meteo/Data/meteo.json');
     // var data =  getText('http://127.0.0.1/B3/DataViz/TP3/Reveneau_Cano_Meteo/Data/meteo.json', (json) => JSON.parse(json, (data) => parseJSON(data)));
-    
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "value";
-    series.dataFields.valueX = "value";
+
+    // var series = chart.series.push(new am4charts.LineSeries());
+    // series.dataFields.valueY = "value";
+    // series.dataFields.valueX = "value";
 
     // createSeries(t, "Température", data);
-    
+
 
 
     // Create series
