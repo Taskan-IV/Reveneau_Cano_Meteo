@@ -31,6 +31,7 @@ function createMap(tabMeteo) {
   var label = imageSeriesTemplate.createChild(am4core.Label);
   label.text = "{temp}";
   imageSeries.data = tabMeteo;
+  label.fontSize = 20;
 }
 
 function parseJSONMeteo(jour) {
@@ -54,7 +55,7 @@ function parseJSONMeteo(jour) {
 }
 
 function updateMap(){
-  var jour = document.getElementById("jour");
-  var val = jour.options[jour.selectedIndex].value;
+  var jour = document.getElementById("formControlRange");
+  var val = jour.value;
   parseJSONMeteo(val);
 }
