@@ -36,7 +36,7 @@
       
       
     
-    <input style="width: 50%; margin: auto;" type="range" class="form-control-range" id="formControlRange" step="1" min="1" max="28" value="1" onchange="updateMap();">
+    <!-- <input style="width: 50%; margin: auto;" type="range" class="form-control-range" id="formControlRange" step="1" min="1" max="28" value="1" onchange="updateMap();"> -->
   </div>
 
 
