@@ -28,7 +28,7 @@ am4core.ready(function () {
     XAxis.dataFields.category = "d";
     XAxis.title.text = "Jour";
     XAxis.renderer.fullWidthTooltip = true;
-    XAxis.min=0;
+    // XAxis.min = 1;
 
     var YAxisT = chart.yAxes.push(new am4charts.ValueAxis());
     YAxisT.title.text = "Température (°C)";
