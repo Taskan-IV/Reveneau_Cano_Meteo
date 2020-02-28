@@ -1,6 +1,6 @@
 // Au départ on créé la carte de la france sans les données //
 // Création de l'instance d'une carte
-var chart = am4core.create("chartdiv", am4maps.MapChart);
+var chart = am4core.create("chartCarte", am4maps.MapChart);
 
 // On set le fait que c'est une carte de france
 chart.geodata = am4geodata_franceHigh;
@@ -39,9 +39,14 @@ circle.stroke = am4core.color("#FFFFFF");
 circle.strokeWidth = 2;
 circle.nonScaling = true;
 circle.tooltipText = "{ville}";
-circle.events.on("hit", afficherStation({heure}));
+circle.events.on("hit", function(ev){afficherStation(ev);});
 
- // La on affiche les données du jour 0
+// On remplie la liste des jours
+var lstJour = document.getElementById("listJour");
+for (var i = 1 ; i <= 28 ; i++) {
+  lstJour.innerHTML += "<option value='"+i+"'>"+i+"</option>";
+}
+// La on affiche les données du jour 0
 updateMap();
 
 /* -----------------------------------------------------------------------*
@@ -50,7 +55,7 @@ updateMap();
 
  // Cette fonction vas chercher toute les stations pour le jour "jour"
 function parseJSONMeteo(jour) {
-  var requestURL = 'http://localhost/B3/DataViz/TP3/Reveneau_Cano_Meteo/Data/meteo.json';
+  var requestURL = 'http://localhost/Reveneau_Cano_Meteo/Data/meteo.json';
   var request = new XMLHttpRequest();
   request.open('GET', requestURL);
   request.responseType = 'json';
@@ -72,11 +77,34 @@ function parseJSONMeteo(jour) {
 
 // La on met-à-jour la carte
 function updateMap(){
-  var jour = document.getElementById("formControlRange");
-  var val = jour.value;
+  var jour = document.getElementById("listJour");
+  var val = jour.options[jour.selectedIndex].value;
   parseJSONMeteo(val);
 }
 
-function afficherStation() {
+function afficherStation(ev) {
+  var data = ev.target.dataItem.dataContext;
+  console.log("start afficherStation pour la station " + data.ville);
 
+  // Use themes
+  am4core.useTheme(am4themes_animated);
+
+  // Create chart instance
+  var chart = am4core.create("chartStation", am4charts.XYChart);
+  chart.data = data.heure;
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  dateAxis.startLocation = 0;
+  dateAxis.endLocation = 23;
+
+  // Create value axis
+  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+  // Create series
+  var series1 = chart.series.push(new am4charts.LineSeries());
+  series1.dataFields.valueY = "t";
+  series1.dataFields.dateX = "h";
+  series1.strokeWidth = 3;
+  series1.tensionX = 0.8;
+  series1.bullets.push(new am4charts.CircleBullet());
+  series1.connect = false;
 }
