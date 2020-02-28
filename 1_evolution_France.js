@@ -5,7 +5,7 @@ am4core.ready(function () {
     // Themes end
 
     // Create chart instance
-    var chart = am4core.create("1_evol", am4charts.XYChart);
+    var chart = am4core.create("global_evol", am4charts.XYChart);
 
     // on définit la source de données
     chart.dataSource.url = "./Data/meteo.json";
@@ -26,8 +26,9 @@ am4core.ready(function () {
     // Axes
     var XAxis = chart.xAxes.push(new am4charts.ValueAxis());
     XAxis.dataFields.category = "d";
-    XAxis.title.text = "jour";
+    XAxis.title.text = "Jour";
     XAxis.renderer.fullWidthTooltip = true;
+    XAxis.min=0;
 
     var YAxisT = chart.yAxes.push(new am4charts.ValueAxis());
     YAxisT.title.text = "Température (°C)";
@@ -65,8 +66,10 @@ am4core.ready(function () {
     pluvio.strokeWidth = 5; // 3px
     pluvio.tooltipText = "{name}: [bold]{valueY}[/]";
 
-
+    // Création de la légende
+    chart.legend = new am4charts.Legend();
     
+    // Ajout du curseur
     chart.cursor = new am4charts.XYCursor();
 
 
