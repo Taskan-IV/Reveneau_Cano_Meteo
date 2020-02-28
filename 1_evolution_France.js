@@ -79,7 +79,7 @@ am4core.ready(function () {
     YAxisP.max = 500; // change
     // YAxisP.numberFormatter.numberFormat = "#,##";
     YAxisP.renderer.opposite = true;
-    YAxisP.renderer.stroke = am4core.color("#046889");
+    // YAxisP.renderer.stroke = am4core.color("#046889");
 
 
 
