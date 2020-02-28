@@ -29,7 +29,7 @@
       <div id="chartCarte"></div>
       <div id="details">
         <div id="details_title"></div>
-        <div id="details_chart"></div>
+        <div id="chartStation"></div>
 
       </div>
     </div>
