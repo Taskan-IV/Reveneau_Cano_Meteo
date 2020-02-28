@@ -19,6 +19,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-evenly;
     height: 500px;
+    margin: 10px;
 }
 
 #chartdiv {
@@ -26,15 +27,27 @@ body {
     width : 40%;
     height: 100%;
     min-width: 400px;
+    border: solid 1px green;
 }
 
 #details {
-    border: solid 1px black;
+    border: solid 1px blue;
     order : 1;
     width : 45%;
     height: 100%;
     min-width: 400px;
 
+}
+
+#details_title {
+    font-size: 1.2em;
+    border: solid 1px red;
+    height: 10%;
+}
+
+#details_chart {
+    border: solid 1px yellow;
+    height: 90%;
 }
 
 #global_evol{
@@ -48,4 +61,8 @@ header {
     padding-left: 10%;
     font-size: 3em;
     color: white;
+}
+
+h2 {
+    margin-left: 5%;
 }

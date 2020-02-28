@@ -16,6 +16,7 @@
   </header>
     
   <div id="corpse">
+    <h2>Évolution de la température et de la pluviométrie en France de février 1999</h2>
     <div id="global_evol"></div>
     <h2>
       <select>
@@ -26,7 +27,11 @@
     <div id="container">
       
       <div id="chartdiv"></div>
-      <div id="details"></div>
+      <div id="details">
+        <div id="details_title"></div>
+        <div id="details_chart"></div>
+
+      </div>
     </div>
       
       
