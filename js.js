@@ -86,25 +86,32 @@ function afficherStation(ev) {
   var data = ev.target.dataItem.dataContext;
   console.log("start afficherStation pour la station " + data.ville);
 
+  var result = data.heure.map(function(ligne) {
+    return {
+      temp : (ligne.t / 100).toFixed(2),
+      heure : ligne.h
+    };
+  });
+
   // Use themes
   am4core.useTheme(am4themes_animated);
 
   // Create chart instance
   var chart = am4core.create("chartStation", am4charts.XYChart);
-  chart.data = data.heure;
-  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-  dateAxis.startLocation = 0;
-  dateAxis.endLocation = 23;
+  chart.data = result;
+  var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
+  xAxis.startLocation = 0;
+  xAxis.endLocation = 23;
 
   // Create value axis
   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
   // Create series
   var series1 = chart.series.push(new am4charts.LineSeries());
-  series1.dataFields.valueY = "t";
-  series1.dataFields.dateX = "h";
+  series1.dataFields.valueY = "temp";
+  series1.dataFields.valueX = "heure";
   series1.strokeWidth = 3;
   series1.tensionX = 0.8;
   series1.bullets.push(new am4charts.CircleBullet());
-  series1.connect = false;
+  series1.connect = true;
 }
