@@ -16,7 +16,10 @@ am4core.ready(function () {
         var data = ev.target.data;
         for (var i = 0; i < data.length; i++) {
             data[i].t /= 100;
+            data[i].p /= data[i].station.length;
+            // console.log(data[i].station.length);
         }
+
     });
 
 
@@ -35,7 +38,7 @@ am4core.ready(function () {
     var YAxisP = chart.yAxes.push(new am4charts.ValueAxis());
     YAxisP.title.text = "Pluviométrie (mm)";
     YAxisP.min = 0;
-    YAxisP.max = 500; // change
+    YAxisP.max = 50; // change
     // YAxisP.numberFormatter.numberFormat = "#,##";
     YAxisP.renderer.opposite = true;
     // YAxisP.renderer.stroke = am4core.color("#046889");

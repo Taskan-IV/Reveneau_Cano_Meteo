@@ -26,7 +26,7 @@
     </nav>
   </head>
   <body>
-    <div id="1_evol" style="width: 900px; height: 800px;"></div>
+    <div id="1_evol" style="width: 900px; height: 500px;"></div>
     <div id="chartdiv" style="width: 900px; height: 700px; margin: auto;"></div>
     <p style="text-align: center; font-size: 150%;">Jour</p>
     <input style="width: 50%; margin: auto;" type="range" class="form-control-range" id="formControlRange" step="1" min="1" max="28" value="1" onchange="updateMap();">
