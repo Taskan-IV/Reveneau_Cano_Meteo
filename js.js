@@ -55,7 +55,7 @@ updateMap();
 
  // Cette fonction vas chercher toute les stations pour le jour "jour"
 function parseJSONMeteo(jour) {
-  var requestURL = 'http://localhost/Reveneau_Cano_Meteo/Data/meteo.json';
+  var requestURL = 'http://localhost/Reveneau_Cano_Meteo2/Data/meteo.json';
   var request = new XMLHttpRequest();
   request.open('GET', requestURL);
   request.responseType = 'json';
