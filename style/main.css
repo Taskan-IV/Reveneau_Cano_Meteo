@@ -1,12 +1,12 @@
 body {
-    background-color: #0B6638;
+    background-color: #36733F;
 }
 
 #corpse {
     background-color: white;
     border-top-left-radius: 5%;
     border-top-right-radius: 5%;
-    width: 90%;
+    width: 80%;
     padding-top: 5%;
     padding-bottom: 20%;
     margin: auto;
@@ -58,7 +58,7 @@ body {
 header {
 
     /* height: 100px; */
-    padding-left: 10%;
+    padding-left: 20%;
     font-size: 3em;
     color: white;
 }
