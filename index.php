@@ -21,16 +21,14 @@
     <h2>
       <select id="listJour" onchange="updateMap();">
       </select>
-
-      février 1999</h2>
+      février 1999
+    </h2>
 
     <div id="container">
-
       <div id="chartCarte"></div>
       <div id="details">
         <div id="details_title"></div>
         <div id="chartStation"></div>
-
       </div>
     </div>
   </div>
