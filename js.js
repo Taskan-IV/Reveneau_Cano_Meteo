@@ -41,7 +41,7 @@ circle.nonScaling = true;
 circle.tooltipText = "{ville}";
 circle.events.on("hit", function (ev) { afficherStation(ev); });
 
-var lastClickedCircle;
+var lastClickEvent;
 
 // On remplie la liste des jours
 var lstJour = document.getElementById("listJour");
@@ -65,6 +65,20 @@ function parseJSONMeteo(jour) {
   request.onload = function () {
     var station = request.response[jour - 1].station;
     var result = station.map(function (ligne) {
+
+      // mise à jour pour pouvoir rappeler après un changement de jour
+      
+      if(lastClickEvent !== undefined && ligne.n === lastClickEvent.target.dataItem.dataContext.ville) {
+        lastClickEvent.target.dataItem.dataContext = {
+          lat: ligne.lat,
+          lng: ligne.lng,
+          ville: ligne.n,
+          temp: (ligne.t / 100).toFixed(2),
+          heure: ligne.hours
+        };
+      }
+
+
       return {
         lat: ligne.lat,
         lng: ligne.lng,
@@ -74,6 +88,8 @@ function parseJSONMeteo(jour) {
       };
     });
     imageSeries.data = result;
+    console.log(result);
+    afficherStation(lastClickEvent);
   }
 }
 
@@ -83,22 +99,15 @@ function updateMap() {
   var val = jour.options[jour.selectedIndex].value;
   parseJSONMeteo(val);
   
-  if (lastClickedCircle !== undefined) {
-    console.log(lastClickedCircle);
-    afficherStation(lastClickedCircle);
-  }
+  
 }
 
 // afficher  les détails d'une station
 function afficherStation(ev) {
 
-  var data;
-  if (ev.ville !== undefined) {
-    data = ev;
-  } else {
-    lastClickedCircle = ev;
-    var data = ev.target.dataItem.dataContext;
-  }
+  lastClickEvent = ev;
+  var data = ev.target.dataItem.dataContext;
+  
 
   console.log(ev);
   
