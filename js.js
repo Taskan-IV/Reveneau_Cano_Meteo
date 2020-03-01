@@ -39,12 +39,12 @@ circle.stroke = am4core.color("#FFFFFF");
 circle.strokeWidth = 2;
 circle.nonScaling = true;
 circle.tooltipText = "{ville}";
-circle.events.on("hit", function(ev){afficherStation(ev);});
+circle.events.on("hit", function (ev) { afficherStation(ev); });
 
 // On remplie la liste des jours
 var lstJour = document.getElementById("listJour");
-for (var i = 1 ; i <= 28 ; i++) {
-  lstJour.innerHTML += "<option value='"+i+"'>"+i+"</option>";
+for (var i = 1; i <= 28; i++) {
+  lstJour.innerHTML += "<option value='" + i + "'>" + i + "</option>";
 }
 // La on affiche les données du jour 0
 updateMap();
@@ -53,22 +53,22 @@ updateMap();
  * ----------- Les méthodes utiles pour l'affichage des données ----------*
  * -----------------------------------------------------------------------*/
 
- // Cette fonction vas chercher toute les stations pour le jour "jour"
+// Cette fonction vas chercher toute les stations pour le jour "jour"
 function parseJSONMeteo(jour) {
   var requestURL = 'http://localhost/B3/DataViz/TP3/Reveneau_Cano_Meteo/Data/meteo.json';
   var request = new XMLHttpRequest();
   request.open('GET', requestURL);
   request.responseType = 'json';
   request.send();
-  request.onload = function() {
+  request.onload = function () {
     var station = request.response[jour - 1].station;
-    var result = station.map(function(ligne) {
+    var result = station.map(function (ligne) {
       return {
-        lat : ligne.lat,
-        lng : ligne.lng,
-        ville : ligne.n,
-        temp : (ligne.t / 100).toFixed(2),
-        heure : ligne.hours
+        lat: ligne.lat,
+        lng: ligne.lng,
+        ville: ligne.n,
+        temp: (ligne.t / 100).toFixed(2),
+        heure: ligne.hours
       };
     });
     imageSeries.data = result;
@@ -76,7 +76,7 @@ function parseJSONMeteo(jour) {
 }
 
 // La on met-à-jour la carte
-function updateMap(){
+function updateMap() {
   var jour = document.getElementById("listJour");
   var val = jour.options[jour.selectedIndex].value;
   parseJSONMeteo(val);
@@ -87,12 +87,13 @@ function afficherStation(ev) {
   console.log("start afficherStation pour la station " + data.ville);
 
   // console.log(ev);
-  document.getElementById("details_title").innerHTML=data.ville
+  document.getElementById("details_title").innerHTML = data.ville
 
-  var result = data.heure.map(function(ligne) {
+  var result = data.heure.map(function (ligne) {
     return {
-      temp : (ligne.t / 100).toFixed(2),
-      heure : ligne.h
+      temp: (ligne.t / 100).toFixed(2),
+      heure: ligne.h,
+      pluvio: ligne.p
     };
   });
 
@@ -103,44 +104,46 @@ function afficherStation(ev) {
   var chart = am4core.create("chartStation", am4charts.XYChart);
   chart.data = result;
 
-  
-  var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+
+  var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
   // xAxis.startLocation = 0;
   // xAxis.endLocation = 23;
   xAxis.title.text = "Heure";
 
-  var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
-  xAxis.startLocation = 0;
-  xAxis.endLocation = 23;
-  xAxis.title.text = "Heure";
+  // Ordonnée (Température)
+  var YAxisT = chart.yAxes.push(new am4charts.ValueAxis());
+  YAxisT.title.text = "Température (°C)";
+  YAxisT.min = -15;
+  YAxisT.max = 50;
 
-
-  // Create value axis
-  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  // Ordonnée (Pluviométrie)
+  var YAxisP = chart.yAxes.push(new am4charts.ValueAxis());
+  YAxisP.title.text = "Pluviométrie (mm)";
+  YAxisP.min = -15;
+  YAxisP.max = 50; // change
+  YAxisP.renderer.opposite = true;
 
   // Create series
   var temp = chart.series.push(new am4charts.LineSeries());
   temp.name = "Température";
   temp.dataFields.valueY = "temp";
-  temp.dataFields.categoryX = "heure";
+  temp.dataFields.valueX = "heure";
   temp.strokeWidth = 3;
   temp.stroke = am4core.color("#DB6300");
 
 
-  // var pluvio = chart.series.push(new am4charts.LineSeries());
-  // pluvio.name = "Pluviométrie";
-  // pluvio.dataFields.valueY = "pluvio";
-  // pluvio.dataFields.valueX = "heure";
-  // pluvio.strokeWidth = 3;
-  // pluvio.stroke = am4core.color("#046889");
-  // pluvio.yAxis = YAxisP;
-  
+  var pluvio = chart.series.push(new am4charts.LineSeries());
+  pluvio.name = "Pluviométrie";
+  pluvio.dataFields.valueY = "pluvio";
+  pluvio.dataFields.valueX = "heure";
+  pluvio.strokeWidth = 3;
+  pluvio.stroke = am4core.color("#046889");
+  pluvio.yAxis = YAxisP;
+
 
 
   chart.legend = new am4charts.Legend();
 
 
-  // series1.tensionX = 0.8;
-  series1.bullets.push(new am4charts.CircleBullet());
-  series1.connect = true;
+
 }
