@@ -105,9 +105,9 @@ function afficherStation(ev) {
   var chart = am4core.create("chartStation", am4charts.XYChart);
   chart.data = result;
   
-  var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
-  xAxis.startLocation = 0;
-  xAxis.endLocation = 23;
+  var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+  // xAxis.startLocation = 0;
+  // xAxis.endLocation = 23;
   xAxis.title.text = "Heure";
 
   // Create value axis
@@ -125,20 +125,20 @@ function afficherStation(ev) {
 
   // Create series
   var temp = chart.series.push(new am4charts.LineSeries());
-  temp.name = "Temprérature";
+  temp.name = "Température";
   temp.dataFields.valueY = "temp";
-  temp.dataFields.valueX = "heure";
+  temp.dataFields.categoryX = "heure";
   temp.strokeWidth = 3;
   temp.stroke = am4core.color("#DB6300");
 
 
-  var pluvio = chart.series.push(new am4charts.LineSeries());
-  pluvio.name = "Pluviométrie";
-  pluvio.dataFields.valueY = "pluvio";
-  pluvio.dataFields.valueX = "heure";
-  pluvio.strokeWidth = 3;
-  pluvio.stroke = am4core.color("#046889");
-  pluvio.yAxis = YAxisP;
+  // var pluvio = chart.series.push(new am4charts.LineSeries());
+  // pluvio.name = "Pluviométrie";
+  // pluvio.dataFields.valueY = "pluvio";
+  // pluvio.dataFields.valueX = "heure";
+  // pluvio.strokeWidth = 3;
+  // pluvio.stroke = am4core.color("#046889");
+  // pluvio.yAxis = YAxisP;
   
 
 
