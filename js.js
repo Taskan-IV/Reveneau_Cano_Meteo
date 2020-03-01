@@ -86,6 +86,9 @@ function afficherStation(ev) {
   var data = ev.target.dataItem.dataContext;
   console.log("start afficherStation pour la station " + data.ville);
 
+  // console.log(ev);
+  document.getElementById("details_title").innerHTML=data.ville
+
   var result = data.heure.map(function(ligne) {
     return {
       temp : (ligne.t / 100).toFixed(2),
@@ -111,7 +114,7 @@ function afficherStation(ev) {
   series1.dataFields.valueY = "temp";
   series1.dataFields.valueX = "heure";
   series1.strokeWidth = 3;
-  series1.tensionX = 0.8;
+  // series1.tensionX = 0.8;
   series1.bullets.push(new am4charts.CircleBullet());
   series1.connect = true;
 }
