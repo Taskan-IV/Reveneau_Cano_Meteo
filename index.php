@@ -11,15 +11,16 @@
 
 
 <body>
-  <header>
-    La météo
-  </header>
+
 
   <div id="corpse">
+    <header>
+      La météo
+    </header>
     <h2>Évolution de la température et de la pluviométrie en France de février 1999</h2>
     <div id="global_evol"></div>
     <h2>
-      Carte météo du 
+      Carte météo du
       <select id="listJour" onchange="updateMap();"></select>
       février 1999
     </h2>

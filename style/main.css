@@ -5,10 +5,10 @@ body {
 
 #corpse {
     background-color: white;
-    border-top-left-radius: 5%;
-    border-top-right-radius: 5%;
+    /* border-top-left-radius: 5%; */
+    /* border-top-right-radius: 5%; */
     width: 80%;
-    padding-top: 5%;
+    /* padding-top: 5%; */
     padding-bottom: 20%;
     margin: auto;
 }
@@ -21,6 +21,7 @@ body {
     justify-content: space-evenly;
     height: 500px;
     margin: 10px;
+    background-color: white;
 }
 
 #chartCarte {
@@ -57,11 +58,12 @@ body {
 }
 
 header {
-
+    background-color: #0A3B5B;
     /* height: 100px; */
-    padding-left: 20%;
+    padding-left: 2.5%;
     font-size: 3em;
     color: white;
+    margin-bottom: 1em;
 }
 
 h2 {
