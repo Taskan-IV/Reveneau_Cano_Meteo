@@ -17,7 +17,7 @@ am4core.ready(function () {
         for (var i = 0; i < data.length; i++) {
             data[i].t /= 100;
             data[i].p /= data[i].station.length;
-            data[i].h = "1999-02-"+data[i].h;
+            data[i].d = new Date(1999, 1, data[i].d);
             // console.log(data[i].station.length);
         }
 
@@ -27,7 +27,7 @@ am4core.ready(function () {
     // Axes
 
     // Abscisse (Jour)
-    var XAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    var XAxis = chart.xAxes.push(new am4charts.DateAxis());
     XAxis.dataFields.category = "d";
     XAxis.title.text = "Jour";
     XAxis.renderer.fullWidthTooltip = true;
@@ -36,13 +36,13 @@ am4core.ready(function () {
     // Ordonnée (Température)
     var YAxisT = chart.yAxes.push(new am4charts.ValueAxis());
     YAxisT.title.text = "Température (°C)";
-    YAxisT.min = 0;
+    YAxisT.min = -15;
     YAxisT.max = 50;
 
     // Ordonnée (Pluviométrie)
     var YAxisP = chart.yAxes.push(new am4charts.ValueAxis());
     YAxisP.title.text = "Pluviométrie (mm)";
-    YAxisP.min = 0;
+    YAxisP.min = -15;
     YAxisP.max = 50; // change
     YAxisP.renderer.opposite = true;
     // YAxisP.renderer.stroke = am4core.color("#046889");
@@ -53,7 +53,7 @@ am4core.ready(function () {
     // Température
     var temp = chart.series.push(new am4charts.LineSeries());
     temp.dataFields.valueY = "t";
-    temp.dataFields.valueX = "d";
+    temp.dataFields.dateX = "d";
     temp.name = "Temprérature";
     temp.stroke = am4core.color("#DB6300"); // orange
     temp.strokeWidth = 5;
@@ -63,7 +63,7 @@ am4core.ready(function () {
     // Pluviométrie
     var pluvio = chart.series.push(new am4charts.LineSeries());
     pluvio.dataFields.valueY = "p";
-    pluvio.dataFields.valueX = "d";
+    pluvio.dataFields.dateX = "d";
     pluvio.name = "Pluviométrie";
     pluvio.yAxis = YAxisP;
     pluvio.stroke = am4core.color("#046889"); // bleu
