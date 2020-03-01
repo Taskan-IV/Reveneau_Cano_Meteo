@@ -88,7 +88,7 @@ function parseJSONMeteo(jour) {
       };
     });
     imageSeries.data = result;
-    console.log(result);
+    // console.log(result);
     afficherStation(lastClickEvent);
   }
 }
@@ -105,6 +105,8 @@ function updateMap() {
 // afficher  les détails d'une station
 function afficherStation(ev) {
 
+  if(ev === undefined) return;
+
   lastClickEvent = ev;
   var data = ev.target.dataItem.dataContext;
   
@@ -119,7 +121,7 @@ function afficherStation(ev) {
   var result = data.heure.map(function (ligne) {
     return {
       temp: (ligne.t / 100).toFixed(2),
-      heure: ligne.h,
+      heure: new Date(1999, 1, document.getElementById("listJour").value,ligne.h),
       pluvio: ligne.p
     };
   });
@@ -132,7 +134,7 @@ function afficherStation(ev) {
   chart.data = result;
 
 
-  var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
+  var xAxis = chart.xAxes.push(new am4charts.DateAxis());
   // xAxis.startLocation = 0;
   // xAxis.endLocation = 23;
   xAxis.title.text = "Heure";
@@ -154,7 +156,7 @@ function afficherStation(ev) {
   var temp = chart.series.push(new am4charts.LineSeries());
   temp.name = "Température";
   temp.dataFields.valueY = "temp";
-  temp.dataFields.valueX = "heure";
+  temp.dataFields.dateX = "heure";
   temp.strokeWidth = 3;
   temp.stroke = am4core.color("#DB6300");
 
@@ -162,7 +164,7 @@ function afficherStation(ev) {
   var pluvio = chart.series.push(new am4charts.LineSeries());
   pluvio.name = "Pluviométrie";
   pluvio.dataFields.valueY = "pluvio";
-  pluvio.dataFields.valueX = "heure";
+  pluvio.dataFields.dateX = "heure";
   pluvio.strokeWidth = 3;
   pluvio.stroke = am4core.color("#046889");
   pluvio.yAxis = YAxisP;
