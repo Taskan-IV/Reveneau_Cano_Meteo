@@ -31,15 +31,15 @@ var label = imageSeriesTemplate.createChild(am4core.Label);
 label.text = "{temp}";
 label.fontSize = 20;
 
-// Ici on affiche les station et leur nom
-var circle = imageSeriesTemplate.createChild(am4core.Circle);
-circle.radius = 4;
-circle.fill = am4core.color("#B27799");
-circle.stroke = am4core.color("#FFFFFF");
-circle.strokeWidth = 2;
-circle.nonScaling = true;
-circle.tooltipText = "{ville}";
-circle.events.on("hit", function (ev) { afficherStation(ev); });
+// Ici on affiche les stations et leur nom
+var icon = imageSeriesTemplate.createChild(am4core.Image);
+icon.width = 25;
+icon.height = 25;
+icon.horizontalCenter = "middle";
+icon.verticalCenter = "middle";
+icon.propertyFields.href = "url";
+icon.tooltipText = "{ville}";
+icon.events.on("hit", function (ev) { afficherStation(ev); });
 
 var lastClickEvent;
 
@@ -78,8 +78,10 @@ function parseJSONMeteo(jour) {
         };
       }
 
+      var url = (ligne.p <= 1 ? "./style/images/sun.svg" : "./style/images/rain.svg");
 
       return {
+        url : url,
         lat: ligne.lat,
         lng: ligne.lng,
         ville: ligne.n,
@@ -120,9 +122,10 @@ function afficherStation(ev) {
 
   var result = data.heure.map(function (ligne) {
     return {
-      temp: (ligne.t / 100).toFixed(2),
-      heure: new Date(1999, 1, document.getElementById("listJour").value,ligne.h),
-      pluvio: ligne.p
+      temp : (ligne.t / 100).toFixed(2),
+      heure : new Date(1999, 1, document.getElementById("listJour").value,ligne.h),
+      pluvio : ligne.p,
+      url : ligne.url
     };
   });
 
