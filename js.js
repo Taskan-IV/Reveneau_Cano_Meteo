@@ -13,12 +13,13 @@ polygonSeries.useGeodata = true;
 // Configure series
 var polygonTemplate = polygonSeries.mapPolygons.template;
 polygonTemplate.tooltipText = "{name}";
-polygonTemplate.fill = am4core.color("#74B266");
+polygonTemplate.fill = am4core.color("#032B44");
 polygonTemplate.propertyFields.fill = "fill";
+polygonTemplate.strokeWidth = 0;
 
 // Create hover state and set alternative fill color
 var hs = polygonTemplate.states.create("hover");
-hs.properties.fill = am4core.color("#367B25");
+hs.properties.fill = am4core.color("#0A3B5B");
 
 // Ici on créé les labels de température qui s'affiche sur la carte
 var imageSeries = chart.series.push(new am4maps.MapImageSeries());
@@ -30,8 +31,9 @@ imageSeriesTemplate.propertyFields.longitude = "lng";
 var label = imageSeriesTemplate.createChild(am4core.Label);
 label.text = "{temp}";
 label.fontSize = 20;
+label.fill = am4core.color("#D38A21");
 
-// Ici on affiche les stations et leur nom
+// Ici on affiche les stations et leur nom et leur icône
 var icon = imageSeriesTemplate.createChild(am4core.Image);
 icon.width = 25;
 icon.height = 25;
@@ -55,7 +57,7 @@ updateMap();
  * ----------- Les méthodes utiles pour l'affichage des données ----------*
  * -----------------------------------------------------------------------*/
 
-// Cette fonction vas chercher toute les stations pour le jour "jour"
+// Cette fonction va chercher toutes les stations pour le jour "jour"
 function parseJSONMeteo(jour) {
   var requestURL = './Data/meteo.json';
   var request = new XMLHttpRequest();
@@ -67,8 +69,8 @@ function parseJSONMeteo(jour) {
     var result = station.map(function (ligne) {
 
       // mise à jour pour pouvoir rappeler après un changement de jour
-      
-      if(lastClickEvent !== undefined && ligne.n === lastClickEvent.target.dataItem.dataContext.ville) {
+
+      if (lastClickEvent !== undefined && ligne.n === lastClickEvent.target.dataItem.dataContext.ville) {
         lastClickEvent.target.dataItem.dataContext = {
           lat: ligne.lat,
           lng: ligne.lng,
@@ -81,7 +83,7 @@ function parseJSONMeteo(jour) {
       var url = (ligne.p <= 1 ? "./style/images/sun.svg" : "./style/images/rain.svg");
 
       return {
-        url : url,
+        url: url,
         lat: ligne.lat,
         lng: ligne.lng,
         ville: ligne.n,
@@ -100,32 +102,32 @@ function updateMap() {
   var jour = document.getElementById("listJour");
   var val = jour.options[jour.selectedIndex].value;
   parseJSONMeteo(val);
-  
-  
+
+
 }
 
 // afficher  les détails d'une station
 function afficherStation(ev) {
 
-  if(ev === undefined) return;
+  if (ev === undefined) return;
 
   lastClickEvent = ev;
   var data = ev.target.dataItem.dataContext;
-  
+
 
   console.log(ev);
-  
-  
+
+
   console.log("start afficherStation pour la station " + data.ville);
 
-  document.getElementById("details_title").innerHTML = data.ville
+  document.getElementById("details_title").innerHTML = "Détails de la station " + data.ville;
 
   var result = data.heure.map(function (ligne) {
     return {
-      temp : (ligne.t / 100).toFixed(2),
-      heure : new Date(1999, 1, document.getElementById("listJour").value,ligne.h),
-      pluvio : ligne.p,
-      url : ligne.url
+      temp: (ligne.t / 100).toFixed(2),
+      heure: new Date(1999, 1, document.getElementById("listJour").value, ligne.h),
+      pluvio: ligne.p,
+      url: ligne.url
     };
   });
 
@@ -161,7 +163,10 @@ function afficherStation(ev) {
   temp.dataFields.valueY = "temp";
   temp.dataFields.dateX = "heure";
   temp.strokeWidth = 3;
-  temp.stroke = am4core.color("#DB6300");
+  temp.stroke = am4core.color("#D38A21");
+  temp.tooltipText = "{name}: [bold]{valueY}[/]";
+  temp.tooltip.getFillFromObject = false;
+  temp.tooltip.background.fill = am4core.color("#D38A21");
 
 
   var pluvio = chart.series.push(new am4charts.LineSeries());
@@ -171,11 +176,15 @@ function afficherStation(ev) {
   pluvio.strokeWidth = 3;
   pluvio.stroke = am4core.color("#046889");
   pluvio.yAxis = YAxisP;
+  pluvio.tooltipText = "{name}: [bold]{valueY}[/]";
+  pluvio.tooltip.getFillFromObject = false;
+  pluvio.tooltip.background.fill = am4core.color("#046889");
 
 
-
+  // Ajout de la légende
   chart.legend = new am4charts.Legend();
 
-
+  // Ajout du curseur
+  chart.cursor = new am4charts.XYCursor();
 
 }

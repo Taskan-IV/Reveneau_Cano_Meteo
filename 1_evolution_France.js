@@ -16,7 +16,7 @@ am4core.ready(function () {
         var data = ev.target.data;
         for (var i = 0; i < data.length; i++) {
             data[i].t /= 100;
-            data[i].p /= data[i].station.length;
+            data[i].p = Math.round((data[i].p / data[i].station.length) * 10) / 10;
             data[i].d = new Date(1999, 1, data[i].d);
             // console.log(data[i].station.length);
         }
@@ -54,10 +54,12 @@ am4core.ready(function () {
     var temp = chart.series.push(new am4charts.LineSeries());
     temp.dataFields.valueY = "t";
     temp.dataFields.dateX = "d";
-    temp.name = "Temprérature";
-    temp.stroke = am4core.color("#DB6300"); // orange
+    temp.name = "Température";
+    temp.stroke = am4core.color("#D38A21"); // orange
     temp.strokeWidth = 5;
     temp.tooltipText = "{name}: [bold]{valueY}[/]";
+    temp.tooltip.getFillFromObject = false;
+    temp.tooltip.background.fill = am4core.color("#D38A21");
 
 
     // Pluviométrie
@@ -69,10 +71,12 @@ am4core.ready(function () {
     pluvio.stroke = am4core.color("#046889"); // bleu
     pluvio.strokeWidth = 5;
     pluvio.tooltipText = "{name}: [bold]{valueY}[/]";
+    pluvio.tooltip.getFillFromObject = false;
+    pluvio.tooltip.background.fill = am4core.color("#046889");
 
     // Création de la légende
     chart.legend = new am4charts.Legend();
-    
+
     // Ajout du curseur
     chart.cursor = new am4charts.XYCursor();
 
