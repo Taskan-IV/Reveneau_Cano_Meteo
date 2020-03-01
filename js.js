@@ -41,6 +41,8 @@ circle.nonScaling = true;
 circle.tooltipText = "{ville}";
 circle.events.on("hit", function (ev) { afficherStation(ev); });
 
+var lastClickedCircle;
+
 // On remplie la liste des jours
 var lstJour = document.getElementById("listJour");
 for (var i = 1; i <= 28; i++) {
@@ -55,7 +57,7 @@ updateMap();
 
 // Cette fonction vas chercher toute les stations pour le jour "jour"
 function parseJSONMeteo(jour) {
-  var requestURL = 'http://localhost/B3/DataViz/TP3/Reveneau_Cano_Meteo/Data/meteo.json';
+  var requestURL = './Data/meteo.json';
   var request = new XMLHttpRequest();
   request.open('GET', requestURL);
   request.responseType = 'json';
@@ -75,18 +77,34 @@ function parseJSONMeteo(jour) {
   }
 }
 
-// La on met-à-jour la carte
+// La on met-à-jour la carte (changement de jour par exemple)
 function updateMap() {
   var jour = document.getElementById("listJour");
   var val = jour.options[jour.selectedIndex].value;
   parseJSONMeteo(val);
+  
+  if (lastClickedCircle !== undefined) {
+    console.log(lastClickedCircle);
+    afficherStation(lastClickedCircle);
+  }
 }
 
+// afficher  les détails d'une station
 function afficherStation(ev) {
-  var data = ev.target.dataItem.dataContext;
+
+  var data;
+  if (ev.ville !== undefined) {
+    data = ev;
+  } else {
+    lastClickedCircle = ev;
+    var data = ev.target.dataItem.dataContext;
+  }
+
+  console.log(ev);
+  
+  
   console.log("start afficherStation pour la station " + data.ville);
 
-  // console.log(ev);
   document.getElementById("details_title").innerHTML = data.ville
 
   var result = data.heure.map(function (ligne) {
